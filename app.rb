@@ -9,10 +9,9 @@ class EventsLocatorAPI < Sinatra::Base
   Econfig.env = settings.environment.to_s
   Econfig.root = settings.root
 
-  #FaceGroup::FbApi
-  #  .config
-  #  .update(client_id: config.FB_CLIENT_ID,
-  #          client_secret: config.FB_CLIENT_SECRET)
+  Meetup::MeetupApi
+    .config
+    .update(access_key: config.MEETUP_API_KEY)
 
   API_VER = 'api/v0.1'
 
