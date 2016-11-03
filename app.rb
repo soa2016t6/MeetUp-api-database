@@ -9,10 +9,10 @@ class EventsLocatorAPI < Sinatra::Base
   Econfig.env = settings.environment.to_s
   Econfig.root = settings.root
 
-  FaceGroup::FbApi
-    .config
-    .update(client_id: config.FB_CLIENT_ID,
-            client_secret: config.FB_CLIENT_SECRET)
+  #FaceGroup::FbApi
+  #  .config
+  #  .update(client_id: config.FB_CLIENT_ID,
+  #          client_secret: config.FB_CLIENT_SECRET)
 
   API_VER = 'api/v0.1'
 
