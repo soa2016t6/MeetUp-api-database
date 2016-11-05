@@ -9,9 +9,15 @@ class EventsLocatorAPI < Sinatra::Base
   Econfig.env = settings.environment.to_s
   Econfig.root = settings.root
 
+  # this is not working! will get 'invalid api key' error in the WebAPI routes responses...
+  # the code bellow somehow doesn't define MEETUP_API_KEY environment variable for our meetupevents gem to use
   Meetup::MeetupApi
     .config
-    .update(access_key: config.MEETUP_API_KEY)
+    .update(access_key: EventsLocatorAPI.config.MEETUP_API_KEY)
+
+  # this is the fix for problem stated above
+  # manually define MEETUP_API_KEY environment variable from credentials stored at config/app.yml
+  ENV['MEETUP_API_KEY'] = EventsLocatorAPI.config.MEETUP_API_KEY
 
   API_VER = 'api/v0.1'
 
@@ -27,8 +33,9 @@ class EventsLocatorAPI < Sinatra::Base
 
       content_type 'application/json'
       response.to_json
+
     rescue
-      halt 404, "Groups in country '#{:countrycode}' at location '#{:locationtextquery}' not found"
+      halt 404, "Groups in country at location specified not found"
     end
   end
 
@@ -40,7 +47,7 @@ class EventsLocatorAPI < Sinatra::Base
       content_type 'application/json'
       response.to_json
     rescue
-      halt 404, "Events at location (lat:'#{:lat}',lon:'#{:locationtextquery}') not found"
+      halt 404, "Events at location latituted+longitude specified not found"
     end
   end
 
