@@ -21,7 +21,7 @@ class EventsLocatorAPI < Sinatra::Base
   end
 
   # route to find groups based on coutry code and location text
-  get '/#{API_VER}/groups/meetup/:countrycode/:locationtextquery/?' do
+  get "/#{API_VER}/groups/meetup/:countrycode/:locationtextquery/?" do
     begin
       response = Meetup::MeetupApi.get_groups(:countrycode, :locationtextquery)
 
@@ -33,7 +33,7 @@ class EventsLocatorAPI < Sinatra::Base
   end
 
   # route to find events based on location defined by latitude and longitude
-  get '/#{API_VER}/events/meetup/:lat/:lon' do
+  get "/#{API_VER}/events/meetup/:lat/:lon" do
     begin
       response = Meetup::MeetupApi.get_events(:lat, :lon)
 
