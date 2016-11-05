@@ -12,11 +12,11 @@ describe 'Meetup Events Routes' do
 
   # Real code country and location text query
   HAPPY_COUNTRY_CODE = 'TW'
-  HAPPY_LOCATION_TEXT = "\"Taipei City\""
+  HAPPY_LOCATION_TEXT = "\"Taipei\""
 
   # Fake country code and non-related location text
   SAD_COUNTRY_CODE = 'WT'
-  SAD_LOCATION_TEXT = "\"Singapore City\""
+  SAD_LOCATION_TEXT = "\"Singapore\""
 
   before do
     VCR.insert_cassette MEETUP_CASSETTE, record: :new_episodes
