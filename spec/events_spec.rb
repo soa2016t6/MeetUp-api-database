@@ -2,9 +2,24 @@
 require_relative 'spec_helper'
 
 describe 'Meetup Events Routes' do
+  # Taipei City Real LAT & LON
+  HAPPY_LAT = 25
+  HAPPY_LON = 121
+
+  # Taipei City Fake LAT & LON
+  SAD_LAT = 1000
+  SAD_LON = 1000
+
+  # Real code country and location text query
+  HAPPY_COUNTRY_CODE = 'TW'
+  LOCATION_TEXT = "\"Taipei City\""
+
+  # Fake country code and non-related location text
+  SAD_COUNTRY_CODE = 'WT'
+  SAD_LOCATION_TEXT = "\"Singapore City\""
 
   before do
-    VCR.insert_cassette GROUPS_CASSETTE, record: :new_episodes
+    VCR.insert_cassette MEETUP_CASSETTE, record: :new_episodes
   end
 
   after do
@@ -13,52 +28,33 @@ describe 'Meetup Events Routes' do
 
   describe 'Find Meetup Events by Location' do
     it 'HAPPY: should find an event given a location' do
-      #get "api/v0.1/meetup/events/#{...}"
+      get URI.encode("api/v0.1/events/meetup/#{HAPPY_LAT}&#{HAPPY_LON}")
 
       last_response.status.must_equal 200
       last_response.content_type.must_equal 'application/json'
-      #group_data = JSON.parse(last_response.body)
-      #group_data['group_id'].length.must_be :>, 0
-      #group_data['name'].length.must_be :>, 0
     end
 
     it 'SAD: should report if location does not exist' do
-      #get "api/v0.1/meetup/events/#{...}"
+      get URI.encode("api/v0.1/meetup/events/#{SAD_LAT}&#{SAD_LON}")
 
       last_response.status.must_equal 404
-      #last_response.body.must_include ...
     end
   end
 
   describe 'Find Meetup Groups by Location Text Query' do
     it 'HAPPY: should find a group given a location' do
-      #get "api/v0.1/meetup/groups/#{...}"
+      get URI.encode("api/v0.1/groups/meetup/#{HAPPY_COUNTRY_CODE}/#{LOCATION_TEXT}")
 
       last_response.status.must_equal 200
       last_response.content_type.must_equal 'application/json'
-      #group_data = JSON.parse(last_response.body)
-      #group_data['group_id'].length.must_be :>, 0
-      #group_data['name'].length.must_be :>, 0
-    end
-  end
-
-  describe 'Find Cities based on specified Country' do
-    it 'HAPPY: should find a city given a country' do
-      # get "api/v0.1/meetup/city/#{...}"
-
-      last_response.status.must_equal 200
-      last_response.content_type.must_equal 'application/json'
-      #group_data = JSON.parse(last_response.body)
-      #group_data['group_id'].length.must_be :>, 0
-      #group_data['name'].length.must_be :>, 0
+      events_data = JSON.parse(last_response.body)
+      events_data.first['country'].must_equal "TW"
     end
 
-    it 'SAD: should report if provided wrong country code (ex: tw -> wt)' do
-      # get "api/v0.1/meetup/city/#{...}"
+    it 'SAD: should report if provided wrong country code or location text' do
+      get URI.encode("api/v0.1/groups/meetup/#{SAD_COUNTRY_CODE}/#{SAD_LOCATION_TEXT}")
 
       last_response.status.must_equal 404
-      #last_response.body.must_include ...
     end
   end
-
 end

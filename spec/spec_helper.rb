@@ -16,6 +16,7 @@ end
 
 FIXTURES_FOLDER = 'spec/fixtures'
 CASSETTES_FOLDER = "#{FIXTURES_FOLDER}/cassettes"
+MEETUP_CASSETTE = 'Meetup'
 
 VCR.configure do |c|
   c.cassette_library_dir = CASSETTES_FOLDER

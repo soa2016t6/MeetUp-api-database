@@ -33,6 +33,12 @@ class EventsLocatorAPI < Sinatra::Base
     begin
       response = Meetup::MeetupApi.get_groups(countrycode, locationtext)
 
+      # Check if first result matches provided country code, 404 if not
+      parsed_response = JSON.parse(response.to_json)
+      if parsed_response.first['country'] != countrycode.upcase
+        raise "country code does not match to query"
+      end
+
       content_type 'application/json'
       response.to_json
     rescue
@@ -40,7 +46,7 @@ class EventsLocatorAPI < Sinatra::Base
     end
   end
 
-  # route to find events based on location defined by latitude & longitude
+  # route to find events based on location defined by latitude[-90<>90] & longitude[-180<>180]
   get "/#{API_VER}/events/meetup/:lat&:lon" do
     latitude = params[:lat]
     longitude = params[:lon]
