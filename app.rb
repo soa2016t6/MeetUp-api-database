@@ -23,32 +23,34 @@ class EventsLocatorAPI < Sinatra::Base
 
   # root route to test if Web API is up
   get '/?' do
-    "EventsLocatorAPI latest version endpoints are at: /#{API_VER}/"
+    "EventsLocatorAPI latest version endpoints are at: /#{API_VER}/!"
   end
 
   # route to find groups based on coutry code and location text
   get "/#{API_VER}/groups/meetup/:countrycode/:locationtextquery/?" do
+    countrycode = params[:countrycode]
+    locationtext = params[:locationtextquery]
     begin
-      response = Meetup::MeetupApi.get_groups(:countrycode, :locationtextquery)
-
-      content_type 'application/json'
-      response.to_json
-
-    rescue
-      halt 404, "Groups in country at location specified not found"
-    end
-  end
-
-  # route to find events based on location defined by latitude and longitude
-  get "/#{API_VER}/events/meetup/:lat/:lon" do
-    begin
-      response = Meetup::MeetupApi.get_events(:lat, :lon)
+      response = Meetup::MeetupApi.get_groups(countrycode, locationtext)
 
       content_type 'application/json'
       response.to_json
     rescue
-      halt 404, "Events at location latituted+longitude specified not found"
+      halt 404, "Groups in country #{countrycode} at location #{locationtext} not found!"
     end
   end
 
+  # route to find events based on location defined by latitude & longitude
+  get "/#{API_VER}/events/meetup/:lat&:lon" do
+    latitude = params[:lat]
+    longitude = params[:lon]
+    begin
+      response = Meetup::MeetupApi.get_events(latitude, longitude)
+
+      content_type 'application/json'
+      response.to_json
+    rescue
+      halt 404, "Events at location (lan:#{latitude} , lon:#{longitude}) not found!"
+    end
+  end
 end
