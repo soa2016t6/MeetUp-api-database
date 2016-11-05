@@ -12,7 +12,7 @@ describe 'Meetup Events Routes' do
 
   # Real code country and location text query
   HAPPY_COUNTRY_CODE = 'TW'
-  LOCATION_TEXT = "\"Taipei City\""
+  HAPPY_LOCATION_TEXT = "\"Taipei City\""
 
   # Fake country code and non-related location text
   SAD_COUNTRY_CODE = 'WT'
@@ -43,7 +43,7 @@ describe 'Meetup Events Routes' do
 
   describe 'Find Meetup Groups by Location Text Query' do
     it 'HAPPY: should find a group given a location' do
-      get URI.encode("api/v0.1/groups/meetup/#{HAPPY_COUNTRY_CODE}/#{LOCATION_TEXT}")
+      get URI.encode("api/v0.1/groups/meetup/#{HAPPY_COUNTRY_CODE}/#{HAPPY_LOCATION_TEXT}")
 
       last_response.status.must_equal 200
       last_response.content_type.must_equal 'application/json'
