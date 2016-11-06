@@ -11,11 +11,11 @@ describe 'Meetup Events Routes' do
   SAD_LON = 1000
 
   # Real code country and location text query
-  HAPPY_COUNTRY_CODE = 'TW'
-  HAPPY_LOCATION_TEXT = "\"Taipei\""
+  HAPPY_COUNTRY_CODE = "TW"
+  HAPPY_LOCATION_TEXT = "\"Taipei City\""
 
   # Fake country code and non-related location text
-  SAD_COUNTRY_CODE = 'WT'
+  SAD_COUNTRY_CODE = "WT" # should be "SG" 
   SAD_LOCATION_TEXT = "\"Singapore\""
 
   before do
