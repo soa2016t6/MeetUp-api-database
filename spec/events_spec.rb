@@ -11,12 +11,12 @@ describe 'Meetup Events Routes' do
   SAD_LON = 1000
 
   # Real code country and location text query
-  HAPPY_COUNTRY_CODE = "SG"
-  HAPPY_LOCATION_TEXT = "\"Singapore\""
+  HAPPY_COUNTRY_CODE = "TW"
+  HAPPY_LOCATION_TEXT = "\"Taipei\""
 
   # Fake country code and non-related location text
   SAD_COUNTRY_CODE = "WT" # should be "SG"
-  SAD_LOCATION_TEXT = "\"Taipei\""
+  SAD_LOCATION_TEXT = "\"Singapore\""
 
   before do
     VCR.insert_cassette MEETUP_CASSETTE, record: :new_episodes
@@ -48,7 +48,7 @@ describe 'Meetup Events Routes' do
       last_response.status.must_equal 200
       last_response.content_type.must_equal 'application/json'
       events_data = JSON.parse(last_response.body)
-      events_data.first['country'].must_equal "SG"
+      events_data.first['country'].must_equal HAPPY_COUNTRY_CODE
     end
 
     it 'SAD: should report if provided wrong country code or location text' do
